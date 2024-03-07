@@ -1,5 +1,7 @@
 package com.joaoalencar.fintechsimulator.domain.user;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,4 +35,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private UserType type;
+
+    @Column(name = "balance")
+    private BigDecimal balance;
 }
