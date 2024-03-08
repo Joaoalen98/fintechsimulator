@@ -2,10 +2,12 @@ package com.joaoalencar.fintechsimulator.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import com.joaoalencar.fintechsimulator.domain.transfer.Transfer;
 import com.joaoalencar.fintechsimulator.domain.user.UserType;
@@ -26,6 +28,27 @@ public class TransferService {
     @Autowired
     private UserRepository userRepository;
 
+    private Boolean getTransferAuthorization() {
+        try {
+            var client = RestClient.builder()
+                    .baseUrl("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc")
+                    .build();
+
+            var res = client.get()
+                    .retrieve()
+                    .body(Map.class);
+
+            if (res.get("message").equals("Autorizado")) {
+                return true;
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private void validateTransfer(TransferDTO transferDTO) {
         var payer = userRepository.findById(transferDTO.getPayerId())
                 .orElseThrow(() -> new UserNotFoundException("Pagador nao existe"));
@@ -36,6 +59,10 @@ public class TransferService {
 
         if (payer.getBalance().compareTo(transferDTO.getAmount()) < 0) {
             throw new BadTransferException("Saldo em conta insuficiente para a operacao");
+        }
+
+        if (getTransferAuthorization()) {
+            throw new BadTransferException("Transferencia negada, tente novamente mais tarde");
         }
 
         userRepository.findById(transferDTO.getPayeeId())
