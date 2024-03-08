@@ -26,9 +26,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/{document}")
-    public ResponseEntity<?> findById(@PathVariable String document) {
-        var user = userService.findByDocument(document);
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> findById(@PathVariable Integer userId) {
+        var user = userService.findById(userId);
         return ResponseEntity.ok().body(user);
     }
 }

@@ -40,8 +40,8 @@ public class UserService {
         return null;
     }
 
-    public Optional<UserDTO> findByDocument(String document) {
-        var user = userRepository.findOneByDocument(document);
+    public Optional<UserDTO> findById(Integer userId) {
+        var user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
             throw new UserNotFoundException();
