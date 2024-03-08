@@ -2,8 +2,6 @@ package com.joaoalencar.fintechsimulator.service.dto;
 
 import java.math.BigDecimal;
 
-import com.joaoalencar.fintechsimulator.domain.user.UserType;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,19 +11,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class TransferDTO {
     
     private Integer id;
 
-    private String name;
+    private BigDecimal amount;
 
-    private String document;
+    private Integer payerId;
 
-    private String email;
-
-    private String password;
-
-    private UserType type;
-
-    private BigDecimal balance;
+    private Integer payeeId;
 }

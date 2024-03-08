@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.joaoalencar.fintechsimulator.service.exception.BadTransferException;
 import com.joaoalencar.fintechsimulator.service.exception.UserAlreadyExistsException;
 import com.joaoalencar.fintechsimulator.service.exception.UserNotFoundException;
 
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handle(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage("Usuario nao encontrado " + ex.getMessage()));
+                .body(new ErrorMessage("Usuario nao encontrado - " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(BadTransferException.class)
+    public ResponseEntity<?> handle(BadTransferException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorMessage("Erro na transferencia - " + ex.getMessage()));
     }
 }
