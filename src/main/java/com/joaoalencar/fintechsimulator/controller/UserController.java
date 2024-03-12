@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.joaoalencar.fintechsimulator.service.UserService;
 import com.joaoalencar.fintechsimulator.service.dto.UserDTO;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -21,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> create(@Valid @RequestBody UserDTO userDTO) {
         var user = userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }

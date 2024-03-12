@@ -25,6 +25,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorMessage("Usuario ja existe no banco - " + ex.getMessage()));
     }
 
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handle(MethodArgumentNotValidException ex) {
+        var message = ex.getAllErrors().getFirst().getDefaultMessage();
+        return ResponseEntity.badRequest().body(new ErrorMessage(message));
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handle(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

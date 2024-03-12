@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.joaoalencar.fintechsimulator.service.TransferService;
 import com.joaoalencar.fintechsimulator.service.dto.TransferDTO;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/transfers")
 public class TransferController {
@@ -26,7 +28,7 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTranser(@RequestBody TransferDTO transferDTO) {
+    public ResponseEntity<?> createTranser(@Valid @RequestBody TransferDTO transferDTO) {
         transferService.createTransfer(transferDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
