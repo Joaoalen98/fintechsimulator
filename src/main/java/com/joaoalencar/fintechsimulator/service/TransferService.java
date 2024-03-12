@@ -61,7 +61,7 @@ public class TransferService {
             throw new BadTransferException("Saldo em conta insuficiente para a operacao");
         }
 
-        if (getTransferAuthorization()) {
+        if (!getTransferAuthorization()) {
             throw new BadTransferException("Transferencia negada, tente novamente mais tarde");
         }
 
