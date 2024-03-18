@@ -32,6 +32,9 @@ public class TransferService {
     @Autowired
     private RestClient restClient;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private Boolean getTransferAuthorization() {
         try {
             var res = restClient.get()
@@ -79,7 +82,7 @@ public class TransferService {
                         t.setAmount(amount);
                     }
 
-                    return new ModelMapper().map(t, TransferDTO.class);
+                    return modelMapper.map(t, TransferDTO.class);
                 })
                 .toList();
     }
@@ -88,7 +91,7 @@ public class TransferService {
     public void createTransfer(TransferDTO transferDTO) {
         validateTransfer(transferDTO);
 
-        var transfer = new ModelMapper().map(transferDTO, Transfer.class);
+        var transfer = modelMapper.map(transferDTO, Transfer.class);
         transferRespository.save(transfer);
 
         userRepository.updateBalance(transferDTO.getPayerId(), transferDTO.getAmount().multiply(new BigDecimal(-1)));

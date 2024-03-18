@@ -18,6 +18,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public Optional<UserDTO> create(UserDTO userDTO) {
         var alreadyExists = userRepository.findOneByDocument(userDTO.getDocument());
 
@@ -31,10 +34,10 @@ public class UserService {
             throw new UserAlreadyExistsException("Email ja cadastrado na base.");
         }
 
-        var user = new ModelMapper().map(userDTO, User.class);
+        var user = modelMapper.map(userDTO, User.class);
         
         if (user != null) {
-            return Optional.of(new ModelMapper().map(userRepository.save(user), UserDTO.class));
+            return Optional.of(modelMapper.map(userRepository.save(user), UserDTO.class));
         }
 
         return null;
@@ -49,6 +52,6 @@ public class UserService {
 
         user.get().setPassword(null);
 
-        return Optional.of(new ModelMapper().map(user, UserDTO.class));
+        return Optional.of(modelMapper.map(user, UserDTO.class));
     }
 }
