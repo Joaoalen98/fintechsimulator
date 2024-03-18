@@ -1,5 +1,7 @@
 package com.joaoalencar.fintechsimulator.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<Optional<UserDTO>> create(@Valid @RequestBody UserDTO userDTO) {
         var user = userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> findById(@PathVariable Integer userId) {
+    public ResponseEntity<Optional<UserDTO>> findById(@PathVariable Integer userId) {
         var user = userService.findById(userId);
         return ResponseEntity.ok().body(user);
     }

@@ -1,5 +1,7 @@
 package com.joaoalencar.fintechsimulator.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class TransferController {
     private TransferService transferService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> findUserTransfers(@PathVariable Integer userId) {
+    public ResponseEntity<List<TransferDTO>> findUserTransfers(@PathVariable Integer userId) {
         return ResponseEntity.ok(transferService.findUserTransfers(userId));
     }
 
