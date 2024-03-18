@@ -1,6 +1,7 @@
 package com.joaoalencar.fintechsimulator.service;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -28,13 +29,13 @@ public class TransferService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RestClient restClient;
+
     private Boolean getTransferAuthorization() {
         try {
-            var client = RestClient.builder()
-                    .baseUrl("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc")
-                    .build();
-
-            var res = client.get()
+            var res = restClient.get()
+                    .uri(new URI("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc"))
                     .retrieve()
                     .body(Map.class);
 
