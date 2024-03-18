@@ -1,6 +1,9 @@
 package com.joaoalencar.fintechsimulator.domain.user;
 
 import java.math.BigDecimal;
+import java.util.Set;
+
+import com.joaoalencar.fintechsimulator.domain.transfer.Transfer;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,4 +41,10 @@ public class User {
 
     @Column(name = "balance")
     private BigDecimal balance;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "payer")
+    private Set<Transfer> debits;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "payee")
+    private Set<Transfer> credits;
 }
